@@ -3,11 +3,15 @@ services:
 
   base-application:
     build: .
+    environment:
+      - APPLICATION_PORT=9000
+    expose:
+      - 9000
+    ports:
+      - 9000:9000
 
   development-application:
     extends: base-application
-    environment:
-      - APPLICATION_PORT=9000
 
   test-application:
     extends: development-application
@@ -16,5 +20,5 @@ services:
     volumes:
       - ./swagger.yaml:/swagger.yaml
     links:
-      - base-application:application
+      - test-application:application
     command: dredd /swagger.yaml application:9000 --server-wait 3

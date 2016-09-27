@@ -7,3 +7,4 @@ destination=geoip_database
 
 wget ${geoip_database_location} -O ${destination}.gz
 gzip --decompress --stdout ${destination}.gz > ${destination}.mmdb
+rm ${destination}.gzg

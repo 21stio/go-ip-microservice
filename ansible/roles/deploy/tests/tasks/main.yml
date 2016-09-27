@@ -1,0 +1,40 @@
+- include: tasks/tests/docker_container_is_running.yml
+  vars:
+    container: go-ip-microservice
+
+
+- include: tasks/tests/consul_has_service_count.yml
+  vars:
+    service: go-ip-microservice
+    count: 1
+
+- include: tasks/tests/consul_has_service_on_current_node.yml
+  vars:
+    service: go-ip-microservice
+    port: 9100
+
+
+- include: tasks/tests/dns_has_host.yml
+  vars:
+    host: "go-ip-microservice.{{ service_tld }}"
+
+
+- include: tasks/tests/http_has_ssl_enabled.yml
+  vars:
+    host: "go-ip-microservice.{{ service_tld }}"
+
+- include: tasks/tests/http_internal_http-service_is_running.yml
+  vars:
+    host: "go-ip-microservice.{{ service_tld }}"
+    uri: "/v1/8.8.8.8"
+    contains: "location"
+
+- include: tasks/tests/http_local_http-service_is_running.yml
+  vars:
+    host: "go-ip-microservice.{{ service_tld }}"
+    uri: "/v1/8.8.8.8"
+    contains: "location"
+
+- include: tasks/tests/http_has_basic_auth_enabled.yml
+  vars:
+    host: "go-ip-microservice.{{ service_tld }}"

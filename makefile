@@ -1,17 +1,26 @@
 SHELL=sh -x
 
-development:
-	docker-compose run development-application
-
 test:
 	docker-compose run test-http-interface
 
-publish_sdk:
+publish_nodejs_sdk:
 	docker run \
 		-v $$(pwd)/swagger.yaml:/swagger.yaml \
-		-e NPM_PACKAGE_NAME=@21stio/ip-microservice-sdk \
+		-e NPM_PACKAGE_NAME=$${NPM_PACKAGE_NAME} \
 		-e CODEGEN_SWAGGER_FILE=/swagger.yaml \
 		-e CODEGEN_LANGUAGE=typescript-fetch \
 		-e NPM_AUTH_TOKEN=$${NPM_AUTH_TOKEN} \
-		-e NPM_EMAIL=$${NPM_EMAIL} \
 		21stio/swagger-codegen-npm-publish
+
+push_go_sdk:
+	docker run \
+  	-v $$(pwd)/swagger.yaml:/swagger.yaml \
+  	-v $${GITHUB_SSH_KEY}:/github \
+  	-e SSH_KEY_FILE=/github \
+  	-e GIT_HOST=github.com \
+  	-e GIT_USERNAME=$${GIT_USERNAME} \
+  	-e GIT_EMAIL=$${GIT_EMAIL} \
+  	-e GIT_REPOSITORY=$${GIT_REPOSITORY} \
+  	-e CODEGEN_SWAGGER_FILE=/swagger.yaml \
+  	-e CODEGEN_LANGUAGE=go \
+  	21stio/swagger-codegen-git-push

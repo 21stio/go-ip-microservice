@@ -1,0 +1,21 @@
+- name: logged in to docker registry
+  shell: "docker login --username {{ roles.nginx.htpasswd.username }} --password {{ roles.nginx.htpasswd.password }} {{ hosts.registry }}"
+
+- name: go-ip-microservice image pulled
+  shell: "docker pull {{ hosts.registry }}/go-ip-microservice:latest"
+
+- name: go-ip-microservice container is running
+  docker:
+    image: "{{ hosts.registry }}/go-ip-microservice:latest"
+    name: go-ip-microservice
+    restart_policy: unless-stopped
+    state: restarted
+    env:
+      - APPLICATION_PORT=9100
+    expose:
+      - 9100
+    ports:
+      - 9100:9100
+    log_driver: syslog
+    log_opt:
+      tag: go-ip-microservice

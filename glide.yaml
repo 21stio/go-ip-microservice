@@ -1,0 +1,15 @@
+package: github.com/21stio/go-ip-microservice
+import:
+- package: github.com/gorilla/mux
+  version: ^1.1.0
+- package: github.com/asaskevich/govalidator
+  version: ^4.0.0
+- package: github.com/oschwald/geoip2-golang
+  version: ^0.1.0
+- package: github.com/ugorji/go
+  subpackages:
+  - codec
+- package: github.com/Sirupsen/logrus
+  version: ^0.10.0
+- package: github.com/robfig/cron
+  version: ^1.0.0

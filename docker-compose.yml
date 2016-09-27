@@ -1,0 +1,20 @@
+version: "2"
+services:
+
+  base-application:
+    build: .
+
+  development-application:
+    extends: base-application
+    environment:
+      - APPLICATION_PORT=9000
+
+  test-application:
+    extends: development-application
+  test-http-interface:
+    image: 21stio/dredd
+    volumes:
+      - ./swagger.yaml:/swagger.yaml
+    links:
+      - base-application:application
+    command: dredd /swagger.yaml application:9000 --server-wait 3

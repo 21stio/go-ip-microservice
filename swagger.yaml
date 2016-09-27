@@ -1,0 +1,79 @@
+---
+  swagger: "2.0"
+
+  info:
+    version: "1.0.0"
+    title: "ip microservice"
+
+  host: "ip.service.production.dope"
+  basePath: "/v1"
+
+  schemes:
+    - "http"
+  consumes:
+    - "application/json"
+  produces:
+    - "application/json; charset=utf-8"
+
+
+  parameters:
+    Ip:
+      name: ip
+      in: path
+      required: true
+      x-example: 8.8.8.8
+      type: string
+
+
+  responses:
+    IpResponse:
+      description: ip response
+      schema:
+        $ref: '#/definitions/IpLookup'
+
+
+  paths:
+    /{ip}:
+      get:
+        operationId: getIp
+        parameters:
+          - $ref: '#/parameters/Ip'
+        responses:
+          200:
+            $ref: '#/responses/IpResponse'
+
+
+  definitions:
+    IpLookup:
+      type: object
+      properties:
+        location:
+          type: object
+          properties:
+            continent:
+              type: object
+              properties:
+                name:
+                  type: string
+                iso_code:
+                  type: string
+            country:
+              type: object
+              properties:
+                name:
+                  type: string
+                iso_code:
+                  type: string
+            city:
+              type: object
+              properties:
+                name:
+                  type: string
+        traits:
+          type: object
+          properties:
+            is_anonymous_proxy:
+              type: boolean
+            is_satellite_provider:
+              type: boolean
+      additionalProperties: false

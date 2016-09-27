@@ -5,7 +5,7 @@
     version: "1.0.0"
     title: "ip microservice"
 
-  host: "ip.service.production.dope"
+  host: "go-ip-microservice.service.production.dope"
   basePath: "/v1"
 
   schemes:

@@ -11,7 +11,10 @@
     restart_policy: unless-stopped
     state: restarted
     env:
-      - APPLICATION_PORT=9100
+      APPLICATION_PORT: 9100
+      SERVICE_TAGS: proxy_https
+      SERVICE_NAME: go-ip-microservice
+      SERVICE_PORT: 9100
     expose:
       - 9100
     ports:
